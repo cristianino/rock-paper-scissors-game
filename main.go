@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"rpsweb/handlers"
 )
 
 func main() {
 	port := ":8080"
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "RPC web")
-	})
 
-	fmt.Printf("Listen to %s", port)
-	http.ListenAndServe(port, nil)
+	router := http.NewServeMux()
+	router.HandleFunc("/", handlers.Index)
+
+	fmt.Printf("Listen to %s\n", port)
+	http.ListenAndServe(port, router)
 }
