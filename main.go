@@ -9,7 +9,13 @@ import (
 func main() {
 	port := ":8080"
 
+	//Router instance
 	router := http.NewServeMux()
+
+	//statics files
+	fs := http.FileServer(http.Dir("public"))
+
+	router.Handle("/public/", http.StripPrefix("/public/", fs))
 
 	router.HandleFunc("/", handlers.Index)
 	router.HandleFunc("/new", handlers.NewGame)
