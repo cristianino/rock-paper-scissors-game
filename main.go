@@ -17,6 +17,6 @@ func main() {
 	router.HandleFunc("/play", handlers.Play)
 	router.HandleFunc("/about", handlers.About)
 
-	log.Printf("Listen to %s\n", port)
+	log.Printf("Listen tcp %s\n", port)
 	log.Fatal(http.ListenAndServe(port, router))
 }
