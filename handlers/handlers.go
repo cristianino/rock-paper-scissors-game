@@ -10,6 +10,12 @@ const (
 	templateDir = "templates/"
 )
 
+type Player struct {
+	Name string
+}
+
+var player Player
+
 func Index(w http.ResponseWriter, r *http.Request) {
 
 	renderTemplate(w, "layout", "index", nil)
@@ -20,11 +26,22 @@ func NewGame(w http.ResponseWriter, r *http.Request) {
 }
 
 func Game(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "game", "index", nil)
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusFound)
+			return
+		}
+		player.Name = r.Form.Get("name")
+		renderTemplate(w, "layout", "game", player)
+		return
+	}
+	http.Redirect(w, r, "/new", http.StatusPermanentRedirect)
 }
 
 func Play(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "game", "index", nil)
+	renderTemplate(w, "layout", "index", nil)
 }
 
 func About(w http.ResponseWriter, r *http.Request) {
