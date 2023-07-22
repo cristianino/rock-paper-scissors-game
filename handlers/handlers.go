@@ -4,17 +4,14 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"rpsweb/models"
 )
 
 const (
 	templateDir = "templates/"
 )
 
-type Player struct {
-	Name string
-}
-
-var player Player
+var player models.Player
 
 func Index(w http.ResponseWriter, r *http.Request) {
 
