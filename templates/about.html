@@ -1,5 +1,22 @@
 {{ template "layout" .}}
 {{ define "title"}} RPS web - About {{ end }}
 {{ define "content"}}
-    <h2>Acerca de</h2>
+    <section>
+        <di class="container">
+            <div class="row">
+                <div class="col p-5">
+                    <h2 class="py-2">Acerca de este proyecto</h2>
+                    <p>Bienvenido al juego piedra, papel, o tijetas.</p>
+                    <p>La finalidad de este proyecto es prácticar mis habilidades con golang, enfocandome en 
+                        la parte de aplicación web sencilla pero escalable.
+                    </p>
+                    <p>Una de sus caracteristicas mas intreresantes es el algoritmo para determinar quien es ganador de la roda. Toda la info en el readme del proyecto</p>
+
+                    <ul class="py-3">
+                        <li><a href="https://github.com/cristianino/rock-paper-scissors-game" target="_blank">GITHUB</a></li>
+                    </ul>
+                </div>
+            </div>
+        </di>
+    </section>
 {{ end }}

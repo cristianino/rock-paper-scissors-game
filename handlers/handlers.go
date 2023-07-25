@@ -1,10 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"html/template"
 	"log"
 	"net/http"
 	"rpsweb/models"
+	"rpsweb/usecases"
+	"strconv"
 )
 
 const (
@@ -19,6 +22,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewGame(w http.ResponseWriter, r *http.Request) {
+	restarValues()
 	renderTemplate(w, "layout", "new-game", nil)
 }
 
@@ -38,7 +42,15 @@ func Game(w http.ResponseWriter, r *http.Request) {
 }
 
 func Play(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "layout", "index", nil)
+	playerChoice, _ := strconv.Atoi(r.URL.Query().Get("c"))
+	result := usecases.PlayRound(playerChoice)
+	out, err := json.MarshalIndent(result, "", "    ")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 func About(w http.ResponseWriter, r *http.Request) {
@@ -54,4 +66,10 @@ func renderTemplate(w http.ResponseWriter, layout string, nameFile string, data 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func restarValues() {
+	player.Name = ""
+	usecases.ComputerScore = 0
+	usecases.PlayerScore = 0
 }
